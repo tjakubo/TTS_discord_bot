@@ -1,0 +1,12 @@
+# Discordia files
+luvit
+luvi
+lit
+deps/*
+
+# Logs
+gateway.json
+discordia.log
+
+# Private bot token
+token.dat

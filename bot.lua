@@ -16,6 +16,11 @@ client:on('messageCreate', function(message)
 		os.exit()
 	end
 
+	if message.content == '!update' then
+		os.execute('git pull --ff-only')
+		os.exit()
+	end
+
 end)
 
 client:run(fs.readFileSync('token.dat'))
