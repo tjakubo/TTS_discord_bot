@@ -81,7 +81,7 @@ client:on('messageCreate', function(message)
     end
     
     if message.content == '!woo' then
-        message.channel:send('Wee')
+        message.channel:send('Weee')
     end
     
     if message.content:find('^!exec') then
