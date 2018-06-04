@@ -6,6 +6,11 @@ client:on('ready', function()
 	print('Logged in as '.. client.user.username)
 end)
 
+-- wrap a message as Discord code block
+local function wrap(msg)
+    return '```\n' .. msg .. '\n```'
+end
+    
 do
     -- which global names are available in sandboxed script
     local whitelist = {
@@ -14,11 +19,6 @@ do
         'string', 'unpack', 'table', 'next', 'math',
         'select', 'type', 'setmetatable', 'getmetatable'
     }
-    
-    -- wrap a message as Discord code block
-    local function wrap(msg)
-        return '```\n' .. msg .. '\n```'
-    end
     
     -- Attempt to run a string script
     -- Return: success (bool), message (string)
@@ -70,14 +70,32 @@ client:on('messageCreate', function(message)
 
     if message.content == '!update' then
         message.channel:send('Updating...')
-        local p, err = io.popen('git pull --ff-only')
+        
+        -- fetch remote
+        local p, err = = io.popen('git fetch origin')
+        if not p then
+            message.channel:send('Error fetching origin: ``' .. err .. '``')
+            return
+        end
+        
+        -- check for commits ahead
+        p, err = = io.popen('git log master..origin/master --pretty=format:"%h: %s, commited by %cn (%ce)"')
+        if not p then
+            message.channel:send('Error performing log: ``' .. err .. '``')
+            return
+        else
+            message.channel:send( wrap(p:read('*all')) )
+        end
+        
+        p, err = io.popen('git pull --ff-only')
         if not p then
             message.channel:send('Error executing pull: ``' .. err .. '``')
             return
+        else
+            message.channel:send( wrap(p:read('*all')) )
+            message.channel:send('Restarting....')
+            os.exit()
         end
-        message.channel:send('```\n' .. p:read('*all') .. '\n```')
-        message.channel:send('Restarting....')
-        os.exit()
     end
     
     if message.content == '!woo' then
