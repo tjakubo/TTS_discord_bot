@@ -46,7 +46,7 @@ function cmd.handleMessage(msgObject)
         
         if cmds.admin[command] and cmd.isElevatedUser(msgObject.author) then
             return true, cmds.admin[command](body, msgObject)
-        elseif cmds[command] then
+        elseif cmds.regular[command] then
             return true, cmds.regular[command](body, msgObject)
         end
     end
