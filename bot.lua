@@ -78,15 +78,19 @@ client:on('messageCreate', function(message)
             return
         end
         
-        -- check for commits ahead
+        -- check for commits ahead, report if there are any
         p, err = io.popen('git log master..origin/master --pretty=format:"%h: %s, commited by %cn (%ce)"')
         if not p then
             message.channel:send('Error performing log: ``' .. err .. '``')
             return
         else
-            message.channel:send( wrap(p:read('*all')) )
+            local log = p:read('*all')
+            if log:len() > 0 then
+                message.channel:send( wrap(log) )
+            end
         end
         
+        -- pull and report results
         p, err = io.popen('git pull --ff-only')
         if not p then
             message.channel:send('Error executing pull: ``' .. err .. '``')
