@@ -3,10 +3,10 @@ local client = discordia.Client()
 
 -- Globals
 fs = require('fs')
-require('util.lua')
+require('src/util.lua')
 
 -- Commands
-local cmd = require('src.command')
+local cmd = require('src/command')
 cmd.loadCommand('example')
 cmd.loadCommand('exec')
 
