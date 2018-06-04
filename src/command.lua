@@ -1,7 +1,4 @@
-local fs = require('fs')
-
 local cmd = {}
-
 cmd.prefix = '!'
 
 function cmd.hasCommand(msgString)
@@ -27,6 +24,11 @@ function cmd.addCommand(name, callback, adminOnly)
     local target = adminOnly and cmds.admin or cmds.regular
     assert(not target[name], 'Trying to add \'' .. name .. '\' command twice')
     target[name] = callback
+end
+
+local commandsPath = 'src/commands/'
+function cmd.loadCommand(filename)
+    cmd.addCommand( unpack(require(commandsPath .. filename)) )
 end
 
 function cmd.isElevatedUser(userObject)

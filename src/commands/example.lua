@@ -5,7 +5,7 @@ local function commandFunction(body, messageObj)
     -- Whisper to command sender
     messageObj.author:send('It works! You command body was ' .. body)
     -- Add a reaction to message that triggered it
-    messageObj:addReaction(':white_check_mark:')
+    messageObj:addReaction('\u{2705}')
     
     -- messageObj should have everything you need to customize its functionality
     
@@ -13,8 +13,8 @@ local function commandFunction(body, messageObj)
     return messageObj.author.fullname .. ' tested me!'
 end
 
--- Return command_name, callback, is_admin
+-- Return a table of {command_name, callback, is_admin}
 -- command_name is the string that triggers this command (prefixed with command character)
 -- callback is a function that gets called when this command is sent on Discord
 -- is_admin restricts the command only to users from elevated_users.txt if set to true
-return 'example', commandFunction, false
+return {'example', commandFunction, false}
