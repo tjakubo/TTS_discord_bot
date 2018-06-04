@@ -47,7 +47,7 @@ client:on('messageCreate', function(message)
         else
             local log = p:read('*all')
             if log:len() > 0 then
-                message.channel:send( wrap(log) )
+                message.channel:send( log:blockWrap() )
             end
             p:close()
         end
@@ -58,7 +58,7 @@ client:on('messageCreate', function(message)
             message.channel:send('Error executing pull: ``' .. err .. '``')
             return
         else
-            message.channel:send( wrap(p:read('*all')) )
+            message.channel:send( p:read('*all'):blockWrap() )
             message.channel:send('Restarting....')
             os.exit()
             p:close()

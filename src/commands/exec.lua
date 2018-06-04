@@ -29,18 +29,18 @@ local function sandbox(script)
     -- load the script
     local fcn, err = loadstring(script)
     if not fcn then
-        return false, 'Load error:\n' .. wrap(err)
+        return false, 'Load error:\n' .. err:wrap()
     end
     
     -- set the env and execute the script
     setfenv(fcn, sandboxEnv)
     local res, err = pcall(fcn)
     if not res then
-        return false, 'Runtime error:\n' .. wrap(err)
+        return false, 'Runtime error:\n' .. err:wrap()
     end
     
     local strOutput = table.concat(output, '\n')
-    return true, strOutput:len() > 0 and ('Output:\n' .. wrap(strOutput)) or ('No output')
+    return true, strOutput:len() > 0 and ('Output:\n' .. strOutput:wrap()) or ('No output')
 end
 
 local function commandFunction(body, message)
