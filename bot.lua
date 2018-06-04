@@ -20,6 +20,10 @@ client:on('messageCreate', function(message)
 		os.execute('git pull --ff-only')
 		os.exit()
 	end
+    
+    if message.content == '!woo' then
+        message.channel:send('Wee')
+    end
 
 end)
 
