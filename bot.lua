@@ -2,6 +2,9 @@ local discordia = require('discordia')
 local fs = require('fs')
 local client = discordia.Client()
 
+local cmd = require('src.command')
+cmd.addCommand( require('src.commands.example') )
+
 client:on('ready', function()
 	print('Logged in as '.. client.user.username)
 end)
@@ -59,6 +62,9 @@ do
 end
 
 client:on('messageCreate', function(message)
+    cmd.handleMessage(message)
+        
+        
     if message.content == '!ping' then
         message.channel:send('Pong!')
     end
