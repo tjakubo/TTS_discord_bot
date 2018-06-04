@@ -76,6 +76,9 @@ client:on('messageCreate', function(message)
         if not p then
             message.channel:send('Error fetching origin: ``' .. err .. '``')
             return
+        else
+            p:read('*all')
+            p:close()
         end
         
         -- check for commits ahead, report if there are any
@@ -88,6 +91,7 @@ client:on('messageCreate', function(message)
             if log:len() > 0 then
                 message.channel:send( wrap(log) )
             end
+            p:close()
         end
         
         -- pull and report results
@@ -99,6 +103,7 @@ client:on('messageCreate', function(message)
             message.channel:send( wrap(p:read('*all')) )
             message.channel:send('Restarting....')
             os.exit()
+            p:close()
         end
     end
     
