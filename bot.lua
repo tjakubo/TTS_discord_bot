@@ -72,14 +72,14 @@ client:on('messageCreate', function(message)
         message.channel:send('Updating...')
         
         -- fetch remote
-        local p, err = = io.popen('git fetch origin')
+        local p, err = io.popen('git fetch origin')
         if not p then
             message.channel:send('Error fetching origin: ``' .. err .. '``')
             return
         end
         
         -- check for commits ahead
-        p, err = = io.popen('git log master..origin/master --pretty=format:"%h: %s, commited by %cn (%ce)"')
+        p, err = io.popen('git log master..origin/master --pretty=format:"%h: %s, commited by %cn (%ce)"')
         if not p then
             message.channel:send('Error performing log: ``' .. err .. '``')
             return
