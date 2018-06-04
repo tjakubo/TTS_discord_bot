@@ -7,9 +7,29 @@ client:on('ready', function()
 end)
 
 do
-    local sandboxEnv = {}
+    -- which global names are available in sandboxed script
+    local whitelist = {
+        'coroutine', 'assert', 'tostring', 'tonumber',
+        'pairs', 'ipairs', 'pcall', 'bit', 'error',
+        'string', 'unpack', 'table', 'next', 'math',
+        'select', 'type', 'setmetatable', 'getmetatable'
+    }
     
+    -- wrap a message as Discord code block
+    local function wrap(msg)
+        return '```\n' .. msg .. '\n```'
+    end
+    
+    -- Attempt to run a string script
+    -- Return: success (bool), message (string)
     function sandbox(script)
+        -- set up script sandbox
+        local sandboxEnv = {}
+        for _,name in pairs(whitelist) do
+            sandboxEnv[name] = _G[name]
+        end
+    
+        -- set up print function to capture output
         local output = {}
         sandboxEnv.print = function(...)
             local o = {...}
@@ -17,17 +37,20 @@ do
             output[#output+1] = table.concat(o, '\t')
         end
         
+        -- load the script
         local fcn, err = loadstring(script)
         if not fcn then
-            return false, 'Load error:\n' .. err
+            return false, 'Load error:\n' .. wrap(err)
         end
         
+        -- set the env and execute the script
         setfenv(fcn, sandboxEnv)
         local res, err = pcall(fcn)
         if not res then
-            return false, 'Runtime error:\n' .. err
+            return false, 'Runtime error:\n' .. wrap(err)
         end
-        return true, table.concat(output, '\n')
+        
+        return true, 'Output:\n' .. wrap(table.concat(output, '\n'))
     end
 end
 
