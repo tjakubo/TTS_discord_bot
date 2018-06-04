@@ -6,6 +6,10 @@ local whitelist = {
     'select', 'type', 'setmetatable', 'getmetatable'
 }
 
+local function timeoutError()
+    error('Script timed out (infinite loop?)')
+end
+
 -- Attempt to run a string script
 -- Return: success (bool), message (string)
 local function sandbox(script)
@@ -33,8 +37,13 @@ local function sandbox(script)
     end
     
     -- set the env and execute the script
+    jit.off()
     setfenv(fcn, sandboxEnv)
+    debug.sethook(timeoutError, '', 1e8)
     local res, err = pcall(fcn)
+    debug.sethook()
+    jit.on()
+    
     if not res then
         return false, 'Runtime error:\n' .. err:wrap()
     end
