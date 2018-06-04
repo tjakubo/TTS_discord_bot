@@ -3,7 +3,7 @@ local client = discordia.Client()
 
 -- Globals
 fs = require('fs')
-require('src/util.lua')
+require('src/util')
 
 -- Commands
 local cmd = require('src/command')
