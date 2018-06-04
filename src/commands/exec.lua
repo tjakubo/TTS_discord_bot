@@ -43,15 +43,23 @@ local function sandbox(script)
     return true, strOutput:len() > 0 and ('Output:\n' .. strOutput:wrap()) or ('No output')
 end
 
+local function findCode(str)
+    return str:match('```lua(.-)```') or str:match('```(.-)```') or str:match('``(.-)``') or str
+end
+
 local function commandFunction(body, message)
-    local script = body:match('```lua(.-)```') or body:match('```(.-)```') or body:match('``(.-)``') or body
-    if body:len() == 0 then
-        message.channel:send('Code not found in the !exec message. Make sure to wrap it in three backtics (`).')
-        return false
+    local script
+    if body:len() > 0 then
+        script = findCode(body)
+    else
+        local prevMsg = message.channel:getMessagesBefore(message.id, 1):iter()()
+        if prevMsg then
+            script = findCode(prevMsg.content)
+        end
     end
     local res, out = sandbox(script)
     message.channel:send(out)
     return res
 end
 
-return {'exec', commandFunction, false}
+return {'run', commandFunction, false}
