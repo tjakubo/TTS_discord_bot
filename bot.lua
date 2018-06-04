@@ -33,6 +33,9 @@ do
         local output = {}
         sandboxEnv.print = function(...)
             local o = {...}
+            if not next(o) then
+                o[1] = 'nil'
+            end
             for k in pairs(o) do o[k] = tostring(o[k]) end
             output[#output+1] = table.concat(o, '\t')
         end
@@ -50,7 +53,8 @@ do
             return false, 'Runtime error:\n' .. wrap(err)
         end
         
-        return true, 'Output:\n' .. wrap(table.concat(output, '\n'))
+        local strOutput = table.concat(output, '\n')
+        return true, strOutput:len() > 0 and ('Output:\n' .. wrap(strOutput)) or ('No output')
     end
 end
 
