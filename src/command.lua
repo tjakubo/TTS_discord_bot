@@ -44,12 +44,17 @@ function cmd.handleMessage(msgObject)
     if cmd.hasCommand(msgObject.content) then
         local command, body = cmd.getCommand(msgObject.content)
         
+        print('Received ' .. command .. ' cmd from ' .. msgObject.author.fullname)
+        
         if cmds.admin[command] and cmd.isElevatedUser(msgObject.author) then
+            print('Handling as admin cmd')
             return true, cmds.admin[command](body, msgObject)
         elseif cmds.regular[command] then
+            print('Handling as regular cmd')
             return true, cmds.regular[command](body, msgObject)
         end
     end
+    print('No appropriate handler')
     return false
 end
 

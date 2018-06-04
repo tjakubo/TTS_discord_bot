@@ -3,7 +3,7 @@
 -- messageObj is Discordia object of command message (see https://github.com/SinisterRectus/Discordia/wiki/Message)
 local function commandFunction(body, messageObj)
     -- Whisper to command sender
-    messageObj.author:send('It works! You command body was ' .. (body:len() > 0 and 'empty' or ('``' .. body .. '``')))
+    messageObj.author:send('It works! You command body was ' .. (body:len() > 0 and ('``' .. body .. '``') or 'empty'))
     -- Add a reaction to message that triggered it
     messageObj:addReaction('\u{2705}')
     
