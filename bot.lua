@@ -82,7 +82,7 @@ client:on('messageCreate', function(message)
         end
         
         -- check for commits ahead, report if there are any
-        p, err = io.popen('git log master..origin/master --pretty=format:"%h: %s, commited by %cn (%ce)"')
+        p, err = io.popen('git log master..origin/master --pretty=format:"%h: %s, committed by %cn (%ce)"')
         if not p then
             message.channel:send('Error performing log: ``' .. err .. '``')
             return
