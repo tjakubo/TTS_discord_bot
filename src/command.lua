@@ -63,12 +63,21 @@ function cmd.handleMessage(msgObject)
         
         log.trace('Received ' .. command .. ' cmd from ' .. msgObject.author.fullname)
         
+        -- Admin command with privileges
         if cmds.admin[command] and cmd.isElevatedUser(msgObject.author) then
-            log.trace(' -- Handling as admin cmd')
+            log.trace(' -- Handling as admin command')
             return true, cmds.admin[command](body, msgObject)
+            
+        -- Regular command
         elseif cmds.regular[command] then
             log.trace(' -- Handling as regular cmd')
             return true, cmds.regular[command](body, msgObject)
+            
+        -- Admin command without privileges
+        elseif cmds.admin[command] then
+            log.trace(' -- Skipping an admin command')
+            msgObject.channel:send('This command can only be used by elevated users')
+            return false
         end
     end
     return false

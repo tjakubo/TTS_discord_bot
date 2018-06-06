@@ -62,7 +62,6 @@ local function findCode(str)
     return str:match('```lua(.-)```') or str:match('```(.-)```') or str:match('``(.-)``') or str
 end
 
-
 local function commandFunction(body, messageObj)
     local script = nil
     -- Get the script body from the same message, previus if empty
@@ -87,7 +86,7 @@ local function commandFunction(body, messageObj)
     else
         messageObj:addReaction('\u{274C}') -- cross mark
     end
-    return 'run result: ' .. tostring(res)
+    return res and 'script ran' or 'script error'
 end
 
 return {'run', commandFunction, false}

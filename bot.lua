@@ -30,7 +30,7 @@ client:on('messageCreate', function(message)
     -- Handle any explicit commands
     local cmdRan, result = cmd.handleMessage(message)
     if cmdRan and result then
-        log.trace('Command return: ' .. result)
+        log.trace('Command report: ' .. result)
     end
 end)
 

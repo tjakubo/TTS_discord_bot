@@ -32,7 +32,8 @@ local function commandFunction(body, messageObj)
         messageObj.channel:send('Error executing pull: ' .. err:wrap())
         return
     else
-        messageObj.channel:send( p:read('*all'):blockWrap() )
+        local log = p:read('*all')
+        messageObj.channel:send( log:blockWrap() )
         if not log:find('Already up-to-date', 1, true) and not log:find('Fast-forward', 1, true) then
             messageObj.channel:send( ('Pull was not fast-forward, check for local repo changes'):bold() )
             log.warn('Skipped update, pull was not fast-forward')
