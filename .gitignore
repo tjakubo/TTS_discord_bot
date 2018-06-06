@@ -7,6 +7,10 @@ deps/*
 # Logs
 gateway.json
 discordia.log
+bot_runtime.log
 
 # Private bot token
 token.dat
+
+# Elevated users list
+elevated_users.txt
