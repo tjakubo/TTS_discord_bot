@@ -22,6 +22,10 @@ local function commandFunction(body, messageObj)
         local log = p:read('*all')
         if log:len() > 0 then
             messageObj.channel:send( log:blockWrap() )
+            if not log:find('Already up-to-date', 1, true) and not log:find('Fast-forward', 1, true) then
+                messageObj.channel:send( ('Pull was not fast-forward, check for local repo changes'):bold() )
+                log.warn('Botched update, pull was not fast-forward')
+            end
         end
         p:close()
     end
