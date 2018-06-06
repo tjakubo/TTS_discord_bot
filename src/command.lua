@@ -38,7 +38,10 @@ end
 -- (mostly for convenience)
 local commandsPath = 'src/commands/'
 function cmd.loadCommand(filename)
-    cmd.addCommand( unpack(require(commandsPath .. filename)) )
+    local res = require(commandsPath .. filename)
+    assert(res, 'Failed to load ' .. commandsPath .. filename)
+    cmd.addCommand( unpack(res) )
+    log.trace(commandsPath .. filename .. ' loaded')
 end
 
 -- Check if user is in the eleveated_users.txt list
@@ -58,13 +61,13 @@ function cmd.handleMessage(msgObject)
     if cmd.hasCommand(msgObject.content) then
         local command, body = cmd.getCommand(msgObject.content)
         
-        print('Received ' .. command .. ' cmd from ' .. msgObject.author.fullname)
+        log.trace('Received ' .. command .. ' cmd from ' .. msgObject.author.fullname)
         
         if cmds.admin[command] and cmd.isElevatedUser(msgObject.author) then
-            print('Handling as admin cmd')
+            log.trace(' -- Handling as admin cmd')
             return true, cmds.admin[command](body, msgObject)
         elseif cmds.regular[command] then
-            print('Handling as regular cmd')
+            log.trace(' -- Handling as regular cmd')
             return true, cmds.regular[command](body, msgObject)
         end
     end

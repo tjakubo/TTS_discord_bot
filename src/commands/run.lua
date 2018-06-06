@@ -75,7 +75,7 @@ local function commandFunction(body, messageObj)
         end
     end
     if not script then 
-        return false
+        return 'no script found'
     end
     
     -- Run the script and print results
@@ -87,7 +87,7 @@ local function commandFunction(body, messageObj)
     else
         messageObj:addReaction('\u{274C}') -- cross mark
     end
-    return res
+    return 'run result: ' .. tostring(res)
 end
 
 return {'run', commandFunction, false}

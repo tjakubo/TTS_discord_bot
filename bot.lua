@@ -2,8 +2,8 @@ local discordia = require('discordia')
 local client = discordia.Client()
 
 -- Globals
-fs = require('fs')
-log = require('src/log')
+_G.fs = require('fs')
+_G.log = require('src/log')
 log.outfile = 'bot_runtime.log'
 require('src/util')
 
@@ -30,7 +30,7 @@ client:on('messageCreate', function(message)
     -- Handle any explicit commands
     local cmdRan, result = cmd.handleMessage(message)
     if cmdRan and result then
-        log.info(result)
+        log.trace('Command return: ' .. result)
     end
 end)
 
