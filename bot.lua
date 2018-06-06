@@ -7,6 +7,8 @@ _G.log = require('src/log')
 log.outfile = 'bot_runtime.log'
 require('src/util')
 
+log.info('')
+log.info('BOT STARTUP')
 
 -- Commands
 local cmd = require('src/command')
