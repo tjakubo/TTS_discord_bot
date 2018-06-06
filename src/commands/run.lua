@@ -63,13 +63,13 @@ local function findCode(str)
 end
 
 
-local function commandFunction(body, message)
+local function commandFunction(body, messageObj)
     local script = nil
     -- Get the script body from the same message, previus if empty
     if body:len() > 0 then
         script = findCode(body)
     else
-        local prevMsg = message.channel:getMessagesBefore(message.id, 1):iter()()
+        local prevMsg = messageObj.channel:getMessagesBefore(messageObj.id, 1):iter()()
         if prevMsg then
             script = findCode(prevMsg.content)
         end
@@ -80,7 +80,7 @@ local function commandFunction(body, message)
     
     -- Run the script and print results
     local res, out = sandbox(script)
-    message.channel:send(out)
+    messageObj.channel:send(out)
     -- Tag the command with an emoji cause why not
     if res then
         messageObj:addReaction('\u{2705}') -- check mark
