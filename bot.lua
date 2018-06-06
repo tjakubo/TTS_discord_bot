@@ -3,7 +3,7 @@ local client = discordia.Client()
 
 -- Globals
 fs = require('fs')
-log = require('log')
+log = require('src/log')
 log.outfile = 'bot_runtime.log'
 require('src/util')
 
