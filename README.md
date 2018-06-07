@@ -13,6 +13,6 @@ WIP
 8. Type ``!ping`` to see if it's alive
 
 # Convenience for remote work
-You can install ``immortal`` (https://immortal.run/) and run ``immortal -c immortal-bot`` to automatically restart the bot  
-You can then push to your repo and tell the bot ``!update`` to make it pull the changes (safe, FF only), exit and be restarted by immortal
-``bot_runtime.log`` (while still rough) can give you some insight on what's going on in an immortal-started bot
+* You can install ``immortal`` (https://immortal.run/) and run ``immortal -c immortal-bot`` to automatically restart the bot  
+* You can then push to your repo and tell the bot ``!update`` to make it pull the changes (safe, FF only), exit and be restarted by immortal  
+* ``bot_runtime.log`` (while still rough) can give you some insight on what's going on in an immortal-started bot
